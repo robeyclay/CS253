@@ -1,0 +1,32 @@
+#! /bin/bash     
+old_suffix=$1
+new_suffix=$2
+
+
+if (( $# == 2 ))
+then
+    for k in *.$new_suffix
+    do
+        if [[ -e $k ]]
+	then
+            echo "$0 ERROR: two existing file types referenced" >&2
+	    exit 1
+        fi
+    done
+
+    for f in *.$old_suffix
+    do
+        new_name=${f%.*}.$new_suffix
+	if [[ -e $f ]]
+	then
+            mv $f $new_name
+            echo Rename $f to $new_name
+	else
+	     echo "$0 ERROR: File cannot be renamed" >&2
+	     exit 1
+	fi
+    done
+else
+    echo "$0 Invalid Arguments: old_suffix new_suffix" >&2
+fi
+
