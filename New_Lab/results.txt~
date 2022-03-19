@@ -1,0 +1,17 @@
+1. new returns a void * because points to area of empty allocated memory to be filled by the data. new is a reference to the location of where the data should be put
+
+2. main 1: calls the global function new
+   main 2: calls the Foo function new
+   main 3: calls the Foo function new
+   main 4: calls the global function delete
+   main 5: calls the Foo function delete
+   main 6: calls the Foo function delete
+   main 7: returns 0
+
+   new and delete are static because the memory containing the function needs to be allocated for the duration of the program. This allows the Foo version of new and delete to be called outside the Foo class.
+
+3. Does not compile. Even though new and delete are static, they are private within the Foo function so they can only be called within the Foo function
+
+4. Does not compile. = delete causes a function to be inaccessible from any context. By having = delete any call to new or delete will fail.
+
+5.

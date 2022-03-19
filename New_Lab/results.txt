@@ -1,0 +1,33 @@
+1. new returns a void * because points to area of empty allocated memory to be filled by the data. new is a reference to the location of where the data should be put
+
+2. main 1: calls the global function new
+   main 2: calls the Foo function new
+   main 3: calls the Foo function new
+   main 4: calls the global function delete
+   main 5: calls the Foo function delete
+   main 6: calls the Foo function delete
+   main 7: returns 0
+
+   new and delete are static because the memory containing the function needs to be allocated for the duration of the program. This allows the Foo version of new and delete to be called outside the Foo class.
+
+3. Does not compile. Even though new and delete are static, they are private within the Foo function so they can only be called within the Foo function
+
+4. Does not compile. = delete causes a function to be inaccessible from any context. By having = delete any call to new or delete will fail.
+
+5. The ctor and dtor are protected so that they are private in the Foo class
+
+6. I would make a vector of void * and insert p into the vector then create a for loop that compares each value in the vector with p. If a match is found it would exit with an error 
+
+7. I would use "~". The reason for this is it shouldn't cause any further unexpected errors and it's a super noticeable byte value
+
+8. a. Foo is 8 bytes
+   b. The difference between p and q is they have different locations in memory. p is 32 memory location after q because Foo creates a double
+   c. Bar is 8 bytes
+   d. r and s are different because they have different starting locations in memory. They each hold a bunch of nodes, which reference the next location in memory. s is 8 locations in memory after r because Bar creates a double which is 8 bytes and deletes the free nodes in between
+
+9.  Bar does not inherit the redefined new and delete. When sizeof(Bar) > sizeof(Foo) Bar will not inherit the redefined new and delete. In order ot fix this, it will depend on the argument size_t being put in new and delete. The data inserted into Foo will need to be larger in size than the data inserted into Bar. 
+
+10. normal.cc takes 26.6x longer than pool.cc. This is because pool.cc uses nodes in order to point to the next available memory location versus having the compiler find an unused memory slot
+
+11. normal.cc take 1.02x more space than pool.cc. This is because pool.cc directs the compiler where to allocate the next memory slot which means there isn't any overlap that needs to be corrected
+
