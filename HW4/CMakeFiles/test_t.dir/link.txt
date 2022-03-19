@@ -1,0 +1,1 @@
+/bin/c++ CMakeFiles/test_t.dir/test_t.cc.o -o test_t  libhw4.a 

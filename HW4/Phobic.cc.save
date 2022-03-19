@@ -1,0 +1,145 @@
+#include "Phobic.h"
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+// Constructors
+Phobic::Phobic() {
+    value = 0;
+    scary.insert(13);
+}
+Phobic::Phobic(int v) {
+    value = v;
+    scary.insert(13);
+    *this = this->scary_check();
+}
+
+Phobic::Phobic(const Phobic &rhs) {
+    value = rhs.value;
+    scary = rhs.scary;
+    *this = this->scary_check();
+}
+
+// assignment operator
+Phobic &Phobic::operator=(const Phobic &rhs) {
+    value = rhs.value;
+    for(auto p : rhs.scary) {
+        scary.insert(p);
+    }
+    return *this;
+}
+
+// Destructors
+Phobic::~Phobic() = default;
+
+// Functions
+Phobic Phobic::add(const Phobic &b) const {
+     Phobic c;
+     c = b;
+     c = *this;
+     c.value = this->value + b.value;
+     return c.scary_check();
+ }
+Phobic Phobic::sub(const Phobic &b) const {
+    Phobic c;
+    c = b;
+    c = *this;
+    c.value = this->value - b.value;
+    return c.scary_check();
+}
+Phobic Phobic::mul(const Phobic &b) const {
+    Phobic c;
+    c = b;
+    c = *this;
+    c.value = this->value * b.value;
+    return c.scary_check();
+}
+Phobic Phobic::div(const Phobic &b) const {
+    Phobic c;
+    c = b;
+    c = *this;
+    c.value = this->value / b.value;
+    return c.scary_check();
+}
+    Phobic Phobic::add_to(const Phobic &b) {
+        *this = this->add(b);
+        *this = this->scary_check();
+        cout <<
+        return *this;
+    }
+    Phobic Phobic::sub_from(const Phobic &b) {
+        *this = this->sub(b);
+        *this = this->scary_check();
+        return *this;
+    }
+    Phobic Phobic::mul_by(const Phobic &b){
+        *this = this->mul(b);
+        *this = this->scary_check();
+        return *this;
+    }
+    Phobic Phobic::div_by(const Phobic &b) {
+        *this = this->div(b);
+        *this = this->scary_check();
+	return *this;
+    }
+    bool Phobic::eq(const Phobic &b) const {
+        if(this->value == b.value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    bool Phobic::lt(const Phobic &b) const {
+        if(this->value < b.value) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    int Phobic::get() const {
+        return this->value;
+    }
+    void Phobic::make_scary(const int a, const int b, const int c, 
+                            const int d, const int e, const int f, 
+                            const int g, const int h, const int i, 
+                            const int j) {
+    this->scary.insert(a);
+    this->scary.insert(b);
+    this->scary.insert(c);
+    this->scary.insert(d);
+    this->scary.insert(e);
+    this->scary.insert(f);
+    this->scary.insert(g);
+    this->scary.insert(h);
+    this->scary.insert(i);
+    this->scary.insert(j);
+    *this = this->scary_check();
+    }
+
+    bool Phobic::is_scary(const int &b) {
+        bool rtn = false;
+        for(auto s : this->scary) {
+            if(s == b) {
+                rtn = true;
+                break;
+            }
+        }
+        return rtn;
+    }
+
+Phobic Phobic::scary_check() {
+    Phobic r;
+    for(size_t x = 0; x < this->scary.size(); x++) {
+        if(this->is_scary(this->value)) {
+            r.value = this->value + 1;
+            r.scary = this->scary;
+        }
+        else {
+            r = *this;
+        }
+    }
+    return r;
+}
+
